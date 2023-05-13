@@ -1,4 +1,20 @@
+import ElementPlus from 'element-plus'
+import 'element-plus/dist/index.css'
+
+import router from './router.js'
+import fetchReq from './plugins/fetchReq.js'
+
 import { createApp } from 'vue'
 import App from './App.vue'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+
+const plugins = [
+    ElementPlus,
+    router,
+    [fetchReq, { port: 5005 }]
+]
+
+plugins.reduce((app, plugin) => plugin.constructor === Array ? app.use(...plugin) : app.use(plugin), app)
+
+app.mount('#app')
