@@ -30,6 +30,7 @@
         </template>
         <template #default>
             <p>set content by slot</p>
+            {{ tempModelValue }}
         </template>
         <template #footer>
             <el-button type="primary" @click="submitDrawer()">confirm</el-button>
@@ -50,7 +51,8 @@ export default {
             games: [],
             drawer: false,
             drawer_title: null,
-            currIndex: null
+            currIndex: null,
+            tempModelValue: null
         }
     },
 
@@ -58,14 +60,32 @@ export default {
         drawer(val) {
             if (!val) {
                 this.$router.push('/dashboard')
-                this.currIndex = null
+
+                this.tempModelValue = null
+                
             }
             else {
-                if (this.currIndex !== undefined) {
+                if (this.currIndex === undefined) {
+                    this.tempModelValue = {
+                        title: '',
+                        description: '',
+                        img: ''
+                    }
+                }
+                else {
+                    this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
                     this.$router.push(`/dashboard/${this.currIndex}`)
                 }
             }
             
+        },
+
+        gamse: {
+            handler(val) {
+                console.log(val)
+                // 发给后端
+            },
+            deep: true
         }
     },
 
@@ -97,6 +117,13 @@ export default {
                 message: this.drawer_title.split(' ')[0]  + ' successfully'
             });
             this.drawer = false
+            
+            if (this.currIndex === undefined) {
+                this.games.push(this.tempModelValue)
+            }
+            else {
+                this.games[this.currIndex] = this.tempModelValue
+            }
         },
     },
 
@@ -156,6 +183,7 @@ export default {
 
         if (this.$route.params.gameId) {
             this.currIndex = this.$route.params.gameId
+            this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
             this.drawer_title = `Edit ${this.games[this.currIndex].title}`
             this.drawer = true
         }
