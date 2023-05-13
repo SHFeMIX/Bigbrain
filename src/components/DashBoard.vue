@@ -50,7 +50,7 @@ export default {
             games: [],
             drawer: false,
             drawer_title: null,
-            currIndex: undefined
+            currIndex: null
         }
     },
 
@@ -58,6 +58,7 @@ export default {
         drawer(val) {
             if (!val) {
                 this.$router.push('/dashboard')
+                this.currIndex = null
             }
             else {
                 if (this.currIndex !== undefined) {
@@ -70,7 +71,6 @@ export default {
 
     methods: {
         showDrawer(index) {
-            console.log(index, 1111)
             if (index !== undefined) {
                 this.drawer_title = `Edit ${this.games[index].title}`
             }
@@ -156,7 +156,7 @@ export default {
 
         if (this.$route.params.gameId) {
             this.currIndex = this.$route.params.gameId
-            this.drawer_title = `Editing ${this.games[this.currIndex].title}`
+            this.drawer_title = `Edit ${this.games[this.currIndex].title}`
             this.drawer = true
         }
     }
