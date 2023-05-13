@@ -31,10 +31,10 @@
         <template #default>
             <p>set content by slot</p>
             {{ tempModelValue }}
-            <div :v-if="tempModelValue !== null">
+            <!-- <div :v-if="tempModelValue !== null"> -->
                 title: <el-input  v-model="tempModelValue.title" />
                 description:  <el-input  v-model="tempModelValue.description" />
-            </div>
+            <!-- </div> -->
         </template>
         <template #footer>
             <el-button type="primary" @click="submitDrawer()">confirm</el-button>
@@ -63,7 +63,7 @@ export default {
     watch: {
         drawer(val) {
             if (!val) {
-                this.$router.push('/dashboard')      
+                this.$router.push('/dashboard')     
             }
             else {
                 if (this.currIndex === undefined) {
@@ -77,12 +77,11 @@ export default {
                     this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
                     this.$router.push(`/dashboard/${this.currIndex}`)
                 }
-                console.log(this.tempModelValue, 1111)
             }
             
         },
 
-        gamse: {
+        games: {
             handler(val) {
                 console.log(val)
                 // 发给后端
