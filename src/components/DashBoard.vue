@@ -31,6 +31,10 @@
         <template #default>
             <p>set content by slot</p>
             {{ tempModelValue }}
+            <div :v-if="tempModelValue !== null">
+                title: <el-input  v-model="tempModelValue.title" />
+                description:  <el-input  v-model="tempModelValue.description" />
+            </div>
         </template>
         <template #footer>
             <el-button type="primary" @click="submitDrawer()">confirm</el-button>
@@ -59,10 +63,7 @@ export default {
     watch: {
         drawer(val) {
             if (!val) {
-                this.$router.push('/dashboard')
-
-                this.tempModelValue = null
-                
+                this.$router.push('/dashboard')      
             }
             else {
                 if (this.currIndex === undefined) {
@@ -76,6 +77,7 @@ export default {
                     this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
                     this.$router.push(`/dashboard/${this.currIndex}`)
                 }
+                console.log(this.tempModelValue, 1111)
             }
             
         },
@@ -116,14 +118,15 @@ export default {
                 type: 'success',
                 message: this.drawer_title.split(' ')[0]  + ' successfully'
             });
-            this.drawer = false
-            
+
             if (this.currIndex === undefined) {
                 this.games.push(this.tempModelValue)
             }
             else {
                 this.games[this.currIndex] = this.tempModelValue
             }
+
+            this.drawer = false
         },
     },
 
