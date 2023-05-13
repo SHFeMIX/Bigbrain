@@ -1,5 +1,5 @@
 <template>
-    <TopBar backPath="/login" title="Dashboard"><el-button type="primary" @click="showDrawer('New game')">Create new game</el-button></TopBar>
+    <TopBar backPath="/login" title="Dashboard"><el-button type="primary" @click="showDrawer()">Create new game</el-button></TopBar>
     <div class="cardContainer">
         <el-card style="margin: 15px;" v-for="(val, index) in games" :key="val" shadow='hover'
             :body-style="{ padding: '0px', width: '200px' }">
@@ -12,7 +12,7 @@
 
                 <el-button type="success">Start game</el-button>
                 <br /><br />
-                <el-button type="primary" @click="$router.push(this.$route.path + '/' + index)">Edit</el-button>
+                <el-button type="primary" @click="showDrawer(index)">Edit</el-button>
                 <el-popconfirm title="Are you sure to delete this game?" @confirm="this.games.splice(index, 1)">
                     <template #reference>
                         <el-button type="danger">Delete</el-button>
@@ -49,7 +49,8 @@ export default {
         return {
             games: [],
             drawer: false,
-            drawer_title: null
+            drawer_title: null,
+            currIndex: undefined
         }
     },
 
@@ -58,12 +59,26 @@ export default {
             if (!val) {
                 this.$router.push('/dashboard')
             }
+            else {
+                if (this.currIndex !== undefined) {
+                    this.$router.push(`/dashboard/${this.currIndex}`)
+                }
+            }
+            
         }
     },
 
     methods: {
-        showDrawer(title) {
-            this.drawer_title = title
+        showDrawer(index) {
+            console.log(index, 1111)
+            if (index !== undefined) {
+                this.drawer_title = `Edit ${this.games[index].title}`
+            }
+            else {
+                this.drawer_title = 'Create new game'
+            }
+
+            this.currIndex = index
             this.drawer = true
         },
 
@@ -77,19 +92,12 @@ export default {
         },
 
         submitDrawer() {
-            this.drawer = false
-            
             this.$message({
                 type: 'success',
-                message: `${this.drawer_title === 'New game' ? 'Create' : 'Edit'} successfully`
+                message: this.drawer_title.split(' ')[0]  + ' successfully'
             });
+            this.drawer = false
         },
-
-        ifShow(route) {
-            if (route.params.gameId) {
-                this.showDrawer(`Editing ${route.params.gameId}`)
-            }
-        }
     },
 
     mounted() {
@@ -146,13 +154,13 @@ export default {
             },
         ]
 
-        this.ifShow(this.$route)
-    },
-
-    beforeRouteUpdate(to) {
-        this.ifShow(to)
-    },
-}
+        if (this.$route.params.gameId) {
+            this.currIndex = this.$route.params.gameId
+            this.drawer_title = `Editing ${this.games[this.currIndex].title}`
+            this.drawer = true
+        }
+    }
+};
 
 </script>
   

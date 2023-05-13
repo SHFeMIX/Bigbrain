@@ -9,6 +9,6 @@ export default createRouter({
         { path : '/login', component: SignCom, props: { hasAccount: true } },
         { path : '/register', component: SignCom, props: { hasAccount: false } },
 
-        { path: '/dashboard/:gameId(\\d+)?', component: DashBoard }
+        { path: '/dashboard/:gameId(\\d+)?', component: DashBoard },
     ]
 })
