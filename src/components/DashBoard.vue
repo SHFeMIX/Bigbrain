@@ -1,19 +1,18 @@
 <template>
-    <TopBar backPath="/login" title="Dashboard"><el-button type="primary" @click="showDrawer()">Create new game</el-button></TopBar>
+    <TopBar backPath="/login" title="Dashboard"><el-button type="primary" @click="async () => { await $fetchReq('admin/quiz/new', 'POST', {name: 'newName'}); getGames() }">Create new game</el-button></TopBar>
     <div class="cardContainer">
-        <el-card style="margin: 15px;" v-for="(val, index) in games" :key="val" shadow='hover'
+        <el-card style="margin: 15px;" v-for="(val, index) in games" :key="val.id" shadow='hover'
             :body-style="{ padding: '0px', width: '200px' }">
             <img src="../assets/logo.png" style="width: 100%" />
             <el-divider style="margin: 0" />
             <div style="padding: 14px">
-                <span>{{ val.title }}</span>
-                <p>{{ val.description }}</p>
+                <p>{{ val }}</p>
 
 
-                <el-button type="success">Start game</el-button>
+                <el-button type="default" size="large" style="width: 145px"><b>Start game</b></el-button>
                 <br /><br />
-                <el-button type="primary" @click="showDrawer(index)">Edit</el-button>
-                <el-popconfirm title="Are you sure to delete this game?" @confirm="this.games.splice(index, 1)">
+                <el-button type="primary" @click="$router.push('/profile/' + index)">Edit</el-button>
+                <el-popconfirm title="Are you sure to delete this game?" @confirm="async () => { await $fetchReq('admin/quiz/' + val.id, 'DELETE'); getGames() }">
                     <template #reference>
                         <el-button type="danger">Delete</el-button>
                     </template>
@@ -23,23 +22,6 @@
         </el-card>
     </div>
 
-
-    <el-drawer v-model="drawer" direction="rtl" :before-close="beforeClose">
-        <template #header>
-            <h4>{{drawer_title}}</h4>
-        </template>
-        <template #default>
-            <p>set content by slot</p>
-            {{ tempModelValue }}
-            <!-- <div :v-if="tempModelValue !== null"> -->
-                title: <el-input  v-model="tempModelValue.title" />
-                description:  <el-input  v-model="tempModelValue.description" />
-            <!-- </div> -->
-        </template>
-        <template #footer>
-            <el-button type="primary" @click="submitDrawer()">confirm</el-button>
-        </template>
-    </el-drawer>
 </template>
   
 <script>
@@ -52,136 +34,31 @@ export default {
 
     data() {
         return {
-            games: [],
-            drawer: false,
-            drawer_title: null,
-            currIndex: null,
-            tempModelValue: null
-        }
-    },
-
-    watch: {
-        drawer(val) {
-            if (val) {
-                if (this.currIndex === undefined) {
-                    this.tempModelValue = {
-                        title: '',
-                        description: '',
-                        img: ''
-                    }
-                    this.drawer_title = 'Create new game'
-                }
-                else {
-                    this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
-                    this.drawer_title = `Edit ${this.games[this.currIndex].title}`
-                    this.$router.push(`/dashboard/${this.currIndex}`)
-                } 
-            }
-            else {
-                this.$router.push('/dashboard')     
-            }
-            
-        },
-
-        games: {
-            handler(val) {
-                console.log(val)
-                // 发给后端
-            },
-            deep: true
+            games: null,
         }
     },
 
     methods: {
-        showDrawer(index) {
-            this.currIndex = index
-            this.drawer = true
-        },
-
-        beforeClose(done) {
-            this.$confirm('Are you sure to close this? You will lose all unsaved changes.')
-                .then(() => {
-                    done()
-                })
-                .catch(() => {});
+        async getGames() {
+            const data = await this.$fetchReq('admin/quiz', 'GET')
             
-        },
+            this.games = await Promise.all(data.quizzes.map(async (quiz) => {
+            // if (id && id === quiz.id) {
+            //     alert(`Join Link: http://localhost:3000/play/${quiz.active}, and has already copied to the clipboard`)
+            //     navigator.clipboard.writeText(`http://localhost:3000/play/${quiz.active}`)
+            // }
+                const profile = await this.$fetchReq('admin/quiz/' + quiz.id, 'GET')
+                profile.id = quiz.id
+                return profile
+            }))
 
-        submitDrawer() {
-            this.$message({
-                type: 'success',
-                message: this.drawer_title.split(' ')[0]  + ' successfully'
-            });
-
-            if (this.currIndex === undefined) {
-                this.games.push(this.tempModelValue)
-            }
-            else {
-                this.games[this.currIndex] = this.tempModelValue
-            }
-
-            this.drawer = false
-        },
+            console.log(this.games)
+       
+    }
     },
 
-    mounted() {
-        this.games = [
-            {
-                title: 'Game 1',
-                description: 'This is game 1',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 2',
-                description: 'This is game 2',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 3',
-                description: 'This is game 3',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 4',
-                description: 'This is game 4',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 5',
-                description: 'This is game 5',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 6',
-                description: 'This is game 6',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 7',
-                description: 'This is game 7',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 8',
-                description: 'This is game 8',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 9',
-                description: 'This is game 9',
-                img: '../assets/logo.png'
-            },
-            {
-                title: 'Game 10',
-                description: 'This is game 10',
-                img: '../assets/logo.png'
-            },
-        ]
-
-        if (this.$route.params.gameId) {
-            this.currIndex = this.$route.params.gameId
-            this.drawer = true
-        }
+    async mounted() {
+        await this.getGames()
     }
 };
 

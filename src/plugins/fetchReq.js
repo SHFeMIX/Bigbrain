@@ -1,5 +1,6 @@
 export default function(app, options) {
-    app.config.globalProperties.$fetchReq = async (url, method, body, token) => {
+    app.config.globalProperties.$fetchReq = async (url, method, body) => {
+        const token = localStorage.getItem('token')
         console.log('\n')
         console.log('******************************')
         console.log('*                            *')
