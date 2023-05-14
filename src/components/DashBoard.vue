@@ -62,21 +62,23 @@ export default {
 
     watch: {
         drawer(val) {
-            if (!val) {
-                this.$router.push('/dashboard')     
-            }
-            else {
+            if (val) {
                 if (this.currIndex === undefined) {
                     this.tempModelValue = {
                         title: '',
                         description: '',
                         img: ''
                     }
+                    this.drawer_title = 'Create new game'
                 }
                 else {
                     this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
+                    this.drawer_title = `Edit ${this.games[this.currIndex].title}`
                     this.$router.push(`/dashboard/${this.currIndex}`)
-                }
+                } 
+            }
+            else {
+                this.$router.push('/dashboard')     
             }
             
         },
@@ -92,13 +94,6 @@ export default {
 
     methods: {
         showDrawer(index) {
-            if (index !== undefined) {
-                this.drawer_title = `Edit ${this.games[index].title}`
-            }
-            else {
-                this.drawer_title = 'Create new game'
-            }
-
             this.currIndex = index
             this.drawer = true
         },
@@ -185,8 +180,6 @@ export default {
 
         if (this.$route.params.gameId) {
             this.currIndex = this.$route.params.gameId
-            this.tempModelValue = JSON.parse(JSON.stringify(this.games[this.currIndex]))
-            this.drawer_title = `Edit ${this.games[this.currIndex].title}`
             this.drawer = true
         }
     }
