@@ -1,9 +1,9 @@
 <template>
-    <TopBar backPath="/dashboard" title="Dashboard"><el-button type="primary" @click="showDrawer()">Add a
-            question</el-button>
+    <TopBar backPath="/dashboard" title="Dashboard">
+        <el-button type="primary" @click="showDrawer()">Add a question</el-button>
     </TopBar>
 
-    <div v-for="(question, index) in questions" :key="question">
+    <!-- <div v-for="(question, index) in questions" :key="question">
         {{ question }}
         <el-button type="primary" @click="showDrawer(parseInt(index))">Edit</el-button>
         <el-popconfirm title="Are you sure to delete this question?" @confirm="this.questions.splice(index, 1)">
@@ -11,9 +11,24 @@
                 <el-button type="danger">Delete</el-button>
             </template>
         </el-popconfirm>
+    </div> -->
+
+
+    <div class="demo-collapse">
+        <el-collapse>
+            <el-collapse-item v-for="(q, i) in questions" :key="i">
+                <template #title>
+                    {{ q.question }}
+                </template>
+
+                <p>{{ q.answer }}</p>
+
+            </el-collapse-item>
+        </el-collapse>
     </div>
 
-    <el-drawer v-model="drawer" direction="rtl" :before-close="beforeClose">
+
+    <el-drawer v-model="drawer" direction="rtl" :before-close="beforeClose" size="50%">
         <template #header>
             <h4>{{ drawer_title }}</h4>
         </template>
@@ -40,7 +55,7 @@ export default {
     data() {
         return {
             gameId: null,
-            questions: [],
+            questions: null,
             drawer: false,
             drawer_title: null,
             currIndex: null,
