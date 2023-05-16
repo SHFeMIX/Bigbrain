@@ -1,32 +1,29 @@
 <template>
-    <TopBar backPath="/dashboard" title="Dashboard">
+    <TopBar backPath="/dashboard" title="Game profile">
         <el-button type="primary" @click="showDrawer()">Add a question</el-button>
     </TopBar>
-
-    <!-- <div v-for="(question, index) in questions" :key="question">
-        {{ question }}
-        <el-button type="primary" @click="showDrawer(parseInt(index))">Edit</el-button>
-        <el-popconfirm title="Are you sure to delete this question?" @confirm="this.questions.splice(index, 1)">
-            <template #reference>
-                <el-button type="danger">Delete</el-button>
-            </template>
-        </el-popconfirm>
-    </div> -->
-
 
     <div v-if="questions" class="demo-collapse">
         <el-collapse>
             <el-collapse-item v-for="(q, i) in questions" :key="i">
                 <template #title>
-                    {{ q.question }} <el-button type="primary" @click="showDrawer(i)">Edit</el-button>
+                    {{ q.question }}
+                    <el-button type="primary" @click.stop="showDrawer(i)">Edit</el-button>
+                    <el-popconfirm title="Are you sure to delete this question?" @confirm="questions.splice(i, 1)">
+                        <template #reference>
+                            <el-button type="danger">Delete</el-button>
+                        </template>
+                    </el-popconfirm>
                 </template>
 
-                <p>{{ q.answer }}</p>
+                <div v-for="(option, index) in q.options" :key="option" style="text-align: left">
+                    <el-icon v-if="q.correctIndex.includes(index)"><Select title="green"/></el-icon>
+                    <span>{{ option }}</span>
+                </div>
 
             </el-collapse-item>
         </el-collapse>
     </div>
-
 
     <el-drawer v-model="drawer" direction="rtl" :before-close="beforeClose" size="50%">
         <template #header>
@@ -36,7 +33,7 @@
             <p>set content by slot</p>
             question: <el-input v-model="tempModelValue.question"></el-input>
             times: <el-input v-model="tempModelValue.questionTime"></el-input>
-            options: <el-button type="primary" @click="tempModelValue.options.push('')">add</el-button><br/>
+            options: <el-button type="primary" @click="tempModelValue.options.push('')">add</el-button><br />
             <template v-for="(val, index) in tempModelValue.options" :key="index">
                 <el-input v-model="tempModelValue.options[index]"></el-input>
                 <el-button type="warning" @click="tempModelValue.options.splice(index, 1)">delete</el-button>
@@ -89,11 +86,11 @@ export default {
             else {
                 this.$router.push(`/profile/${this.gameId}`)
             }
-
         },
 
         questions: {
             handler(val) {
+                console.log('questions changed')
                 console.log(val)
                 // 发给后端
             },
@@ -113,7 +110,6 @@ export default {
                     done()
                 })
                 .catch(() => { });
-
         },
 
         submitDrawer() {
@@ -138,7 +134,7 @@ export default {
 
         const data = await this.$fetchReq(`admin/quiz/${this.gameId}`, 'GET')
         this.questions = data.questions
-      
+
         if (this.$route.params.questionId) {
             this.showDrawer(this.$route.params.questionId)
         }
@@ -147,11 +143,11 @@ export default {
 
 </script>
   
-<style>
+<spanstyle>
 .cardContainer {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
     flex-wrap: wrap;
 }
-</style>
+</spanstyle>
