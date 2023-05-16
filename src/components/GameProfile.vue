@@ -14,11 +14,11 @@
     </div> -->
 
 
-    <div class="demo-collapse">
+    <div v-if="questions" class="demo-collapse">
         <el-collapse>
             <el-collapse-item v-for="(q, i) in questions" :key="i">
                 <template #title>
-                    {{ q.question }}
+                    {{ q.question }} <el-button type="primary" @click="showDrawer(i)">Edit</el-button>
                 </template>
 
                 <p>{{ q.answer }}</p>
@@ -34,9 +34,13 @@
         </template>
         <template #default>
             <p>set content by slot</p>
-            {{ tempModelValue }}
-            title: <el-input v-model="tempModelValue.question" />
-            description: <el-input v-model="tempModelValue.answer" />
+            question: <el-input v-model="tempModelValue.question"></el-input>
+            times: <el-input v-model="tempModelValue.questionTime"></el-input>
+            options: <el-button type="primary" @click="tempModelValue.options.push('')">add</el-button><br/>
+            <template v-for="(val, index) in tempModelValue.options" :key="index">
+                <el-input v-model="tempModelValue.options[index]"></el-input>
+                <el-button type="warning" @click="tempModelValue.options.splice(index, 1)">delete</el-button>
+            </template>
         </template>
         <template #footer>
             <el-button type="primary" @click="submitDrawer">confirm</el-button>
@@ -69,7 +73,9 @@ export default {
                 if (this.currIndex === undefined) {
                     this.tempModelValue = {
                         question: '',
-                        answer: ''
+                        questionTime: 20,
+                        options: ['', '', '', ''],
+                        correctIndex: []
                     }
                     this.drawer_title = 'Add a question'
                 }
@@ -97,7 +103,7 @@ export default {
 
     methods: {
         showDrawer(index) {
-            this.currIndex = index
+            this.currIndex = index !== undefined ? parseInt(index) : index
             this.drawer = true
         },
 
@@ -127,29 +133,12 @@ export default {
         },
     },
 
-    mounted() {
-        console.log('aaaaaaa')
+    async mounted() {
         this.gameId = this.$route.params.gameId
 
-        this.questions = [
-            {
-                question: 'question 1',
-                answer: 'answer 1'
-            },
-            {
-                question: 'question 2',
-                answer: 'answer 2'
-            },
-            {
-                question: 'question 3',
-                answer: 'answer 3'
-            },
-            {
-                question: 'question 4',
-                answer: 'answer 4'
-            }
-        ]
-
+        const data = await this.$fetchReq(`admin/quiz/${this.gameId}`, 'GET')
+        this.questions = data.questions
+      
         if (this.$route.params.questionId) {
             this.showDrawer(this.$route.params.questionId)
         }

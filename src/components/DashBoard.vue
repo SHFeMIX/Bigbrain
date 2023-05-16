@@ -3,17 +3,20 @@
             @click="async () => { await $fetchReq('admin/quiz/new', 'POST', { name: 'newName' }); getGames() }">Create new
             game</el-button></TopBar>
     <div class="cardContainer">
-        <el-card style="margin: 15px;" v-for="(val, index) in games" :key="val.id" shadow='hover'
+        <el-card style="margin: 15px;" v-for="val in games" :key="val.id" shadow='hover'
             :body-style="{ padding: '0px', width: '200px' }">
             <img src="../assets/logo.png" style="width: 100%" />
             <el-divider style="margin: 0" />
             <div style="padding: 14px">
-                <p>{{ val }}</p>
-
+                <div>
+                    <template v-for="(v, k) in val" :key="k">
+                        {{ k }}: {{ v }}<br/>
+                    </template>
+                </div>
 
                 <el-button type="default" size="large" style="width: 145px"><b>Start game</b></el-button>
                 <br /><br />
-                <el-button type="primary" @click="$router.push('/profile/' + index)">Edit</el-button>
+                <el-button type="primary" @click="$router.push('/profile/' + val.id)">Edit</el-button>
                 <el-popconfirm title="Are you sure to delete this game?"
                     @confirm="async () => { await $fetchReq('admin/quiz/' + val.id, 'DELETE'); getGames() }">
                     <template #reference>
