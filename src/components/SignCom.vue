@@ -18,10 +18,10 @@
 
 <script>
 export default {
-    props: ["hasAccount"],
 
     data() {
         return {
+            hasAccount: null,
             formLabelAlign: {
                 email: "",
                 password: "",
@@ -54,6 +54,10 @@ export default {
             this.$router.push({ path: this.hasAccount ? "/register" : "/login" });
             // console.log(this.$fetchReq)
         }
-    }
+    },
+
+    mounted() {
+        this.hasAccount = this.$route.path === "/login";
+    },
 };
 </script>

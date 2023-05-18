@@ -16,9 +16,9 @@
                     </el-popconfirm>
                 </template>
 
-                <div v-for="(option, index) in q.options" :key="option" style="text-align: left">
+                <div v-for="(option, index) in q.options" :key="option" style="text-align: left; border: 1px solid red; display:fixed">
                     <el-icon v-if="q.correctIndex.includes(index)"><Select title="green"/></el-icon>
-                    <span>{{ option }}</span>
+                    <span style="left: 30%">{{ option }}</span>
                 </div>
 
             </el-collapse-item>

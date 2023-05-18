@@ -7,8 +7,8 @@ export default createRouter({
     history: createWebHistory(),
     routes: [
         { path: "/", redirect: "/login" },
-        { path: "/login", component: SignCom, props: { hasAccount: true } },
-        { path: "/register", component: SignCom, props: { hasAccount: false } },
+        { path: "/login", component: SignCom},
+        { path: "/register", component: SignCom},
 
         { path: "/dashboard", component: DashBoard },
 
