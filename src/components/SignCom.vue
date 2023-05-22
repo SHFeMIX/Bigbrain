@@ -21,7 +21,6 @@ export default {
 
     data() {
         return {
-            hasAccount: null,
             formLabelAlign: {
                 email: "",
                 password: "",
@@ -31,6 +30,10 @@ export default {
     },
 
     computed: {
+        hasAccount() {
+            return this.$route.path === "/login";
+        },
+
         msg() {
             return this.hasAccount? "Don't have an account? Go register" : "Already have an account? Go login";
         },
@@ -52,12 +55,7 @@ export default {
 
         change() {
             this.$router.push({ path: this.hasAccount ? "/register" : "/login" });
-            // console.log(this.$fetchReq)
         }
-    },
-
-    mounted() {
-        this.hasAccount = this.$route.path === "/login";
     },
 };
 </script>
