@@ -1,5 +1,6 @@
 <template>
-    <el-form label-position="top" label-width="100px" :model="formLabelAlign" style="margin: 0 auto; width: 400px; margin-top: 60px">
+    <!-- :model="formLabelAlign" -->
+    <el-form label-position="top" label-width="100px" style="margin: 0 auto; width: 400px; margin-top: 60px">  
         <el-form-item label="Email">
             <el-input v-model="formLabelAlign.email" />
         </el-form-item>

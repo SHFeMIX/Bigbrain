@@ -10,7 +10,6 @@
                     {{ q.question }}
                 </template>
 
-
                 <div style="borde: 1px solid red; text-align:left">
                     <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
                     <div v-for="(option, index) in q.options" :key="option">
@@ -29,8 +28,6 @@
                     </el-popconfirm>
                 </div>
 
-
-
             </el-collapse-item>
         </el-collapse>
     </div>
@@ -40,14 +37,24 @@
             <h4>{{ drawer_title }}</h4>
         </template>
         <template #default>
-            <p>set content by slot</p>
-            question: <el-input v-model="tempModelValue.question"></el-input>
-            times: <el-input v-model="tempModelValue.questionTime"></el-input>
-            options: <el-button type="primary" @click="tempModelValue.options.push('')">add</el-button><br />
-            <template v-for="(val, index) in tempModelValue.options" :key="index">
-                <el-input v-model="tempModelValue.options[index]"></el-input>
-                <el-button type="warning" @click="tempModelValue.options.splice(index, 1)">delete</el-button>
-            </template>
+            <el-form label-position="right" label-width="85px">
+                <el-form-item label="question">
+                    <el-input v-model="tempModelValue.question"></el-input>
+                </el-form-item>
+                <el-form-item label="time">
+                    <el-input style="width: 40px" v-model="tempModelValue.questionTime"></el-input>
+                </el-form-item>
+
+                <el-form-item v-for="(option, index) in tempModelValue.options" :key="index"
+                    :label="'option ' + (index + 1)">
+                    <el-input v-model="tempModelValue.options[index]"></el-input>
+                    <el-checkbox v-model="tempModelValue.correctIndex" :label="index">correct</el-checkbox>
+                    <el-button type="warning"
+                        @click="tempModelValue.options.length > 4 ? tempModelValue.options.splice(index, 1) : $message({ type: 'error', message: 'At least 4 options' })">delete</el-button>
+                </el-form-item>
+                <el-button type="primary"
+                    @click="tempModelValue.options.length < 6 ? tempModelValue.options.push('') : $message({ type: 'error', message: 'At most 6 options' })">Add options</el-button>
+            </el-form>
         </template>
         <template #footer>
             <el-button type="primary" @click="submitDrawer">confirm</el-button>
@@ -105,7 +112,7 @@ export default {
                 // 发给后端
             },
             deep: true
-        }
+        },
     },
 
     methods: {
