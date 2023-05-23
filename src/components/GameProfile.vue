@@ -13,9 +13,10 @@
                 <div style="borde: 1px solid red; text-align:left">
                     <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
                     <div v-for="(option, index) in q.options" :key="option">
-                        <el-icon
-                            :style="{ marginLeft: '10px', visibility: q.correctIndex.includes(index) ? 'visible' : 'hidden' }"><Select
+                        <!-- , visibility: q.correctIndex.includes(index) ? 'visible' : 'hidden'  -->
+                        <el-icon v-if="q.correctIndex.includes(index)" style="margin-left: 10px"><Select
                                 title="green" /></el-icon>
+                        <div v-else style="display: inline-block; width: 23px"></div>
                         <span style="left: 20px; position: relative">{{ option }}</span>
                     </div>
 
@@ -52,8 +53,11 @@
                     <el-button type="warning"
                         @click="tempModelValue.options.length > 4 ? tempModelValue.options.splice(index, 1) : $message({ type: 'error', message: 'At least 4 options' })">delete</el-button>
                 </el-form-item>
-                <el-button type="primary"
-                    @click="tempModelValue.options.length < 6 ? tempModelValue.options.push('') : $message({ type: 'error', message: 'At most 6 options' })">Add options</el-button>
+                <div style="text-align: left">
+                    <el-button type="primary" style="margin-left: 20px"
+                        @click="tempModelValue.options.length < 6 ? tempModelValue.options.push('') : $message({ type: 'error', message: 'At most 6 options' })">Add
+                        options</el-button>
+                </div>
             </el-form>
         </template>
         <template #footer>
