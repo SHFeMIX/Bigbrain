@@ -8,18 +8,28 @@
             <el-collapse-item v-for="(q, i) in questions" :key="i">
                 <template #title>
                     {{ q.question }}
+                </template>
+
+
+                <div style="borde: 1px solid red; text-align:left">
+                    <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
+                    <div v-for="(option, index) in q.options" :key="option">
+                        <el-icon
+                            :style="{ marginLeft: '10px', visibility: q.correctIndex.includes(index) ? 'visible' : 'hidden' }"><Select
+                                title="green" /></el-icon>
+                        <span style="left: 20px; position: relative">{{ option }}</span>
+                    </div>
+
+                    <br />
                     <el-button type="primary" @click.stop="showDrawer(i)">Edit</el-button>
                     <el-popconfirm title="Are you sure to delete this question?" @confirm="questions.splice(i, 1)">
                         <template #reference>
                             <el-button type="danger">Delete</el-button>
                         </template>
                     </el-popconfirm>
-                </template>
-
-                <div v-for="(option, index) in q.options" :key="option" style="text-align: left; border: 1px solid red; display:fixed">
-                    <el-icon v-if="q.correctIndex.includes(index)"><Select title="green"/></el-icon>
-                    <span style="left: 30%">{{ option }}</span>
                 </div>
+
+
 
             </el-collapse-item>
         </el-collapse>
