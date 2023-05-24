@@ -35,7 +35,7 @@
 
     <el-drawer v-model="drawer" direction="rtl" :before-close="beforeClose" size="50%">
         <template #header>
-            <h4>{{ drawer_title }}</h4>
+            <h2>{{ drawer_title }}</h2>
         </template>
         <template #default>
             <el-form label-position="right" label-width="85px">
@@ -45,19 +45,20 @@
                 <el-form-item label="time">
                     <el-input style="width: 40px" v-model="tempModelValue.questionTime"></el-input>
                 </el-form-item>
+                
+                <br />
+                <el-form-item label="options">
+                    <el-button type="primary"
+                        @click="tempModelValue.options.length < 6 ? tempModelValue.options.push('') : $message({ type: 'error', message: 'At most 6 options' })">add</el-button>
+                </el-form-item>
 
-                <el-form-item v-for="(option, index) in tempModelValue.options" :key="index"
-                    :label="'option ' + (index + 1)">
-                    <el-input v-model="tempModelValue.options[index]"></el-input>
-                    <el-checkbox v-model="tempModelValue.correctIndex" :label="index">correct</el-checkbox>
+                <el-form-item v-for="(option, index) in tempModelValue.options" :key="index" :label="index + 1" style="borde: solid red 1px; display: flex">
+                    <el-input v-model="tempModelValue.options[index]" style="width: 650px"></el-input>
+                    <el-checkbox v-model="tempModelValue.correctIndex" :label="index" style="margin-left: 20px; margin-right: 20px">correct</el-checkbox>
                     <el-button type="warning"
                         @click="tempModelValue.options.length > 4 ? tempModelValue.options.splice(index, 1) : $message({ type: 'error', message: 'At least 4 options' })">delete</el-button>
                 </el-form-item>
-                <div style="text-align: left">
-                    <el-button type="primary" style="margin-left: 20px"
-                        @click="tempModelValue.options.length < 6 ? tempModelValue.options.push('') : $message({ type: 'error', message: 'At most 6 options' })">Add
-                        options</el-button>
-                </div>
+               
             </el-form>
         </template>
         <template #footer>
