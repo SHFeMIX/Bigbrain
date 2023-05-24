@@ -1,6 +1,5 @@
 <template>
-    <TopBar backPath="/login" title="Dashboard"><el-button type="primary"
-            @click="async () => { await $fetchReq('admin/quiz/new', 'POST', { name: 'newName' }); getGames() }">Create new
+    <TopBar backPath="/login" title="Dashboard"><el-button type="primary" @click="dialogFormVisible = true">Create new
             game</el-button></TopBar>
     <div class="cardContainer">
         <el-card style="margin: 15px;" v-for="val in games" :key="val.id" shadow='hover'
@@ -9,11 +8,12 @@
             <el-divider style="margin: 0" />
             <div style="padding: 14px">
                 <div>
-                    <template v-for="(v, k) in val" :key="k">
-                        {{ k }}: {{ v }}<br/>
-                    </template>
+                    title: {{ val.name }} <br />
+                    number of questions: {{ val.questions.length }} <br />
+                    total time: {{ val.questions.length > 0 ? val.questions.reduce((acc, cur) => acc +
+                        parseInt(cur.questionTime), 0) : 0 }}s <br />
                 </div>
-
+                <br />
                 <el-button type="default" size="large" style="width: 145px"><b>Start game</b></el-button>
                 <br /><br />
                 <el-button type="primary" @click="$router.push('/profile/' + val.id)">Edit</el-button>
@@ -26,6 +26,26 @@
 
             </div>
         </el-card>
+
+
+        <el-dialog v-model="dialogFormVisible" center="true" title="Create new game" style="width: 30%; text-align:center">
+            <el-form label-position="left" label-width="50px">
+                <el-form-item el-form-item label="name">
+                    <el-input v-model="newGameName" style="width: 200px" />
+                </el-form-item>
+            </el-form>
+
+            <template #footer>
+                <span>
+                    <el-button @click="dialogFormVisible = false">Cancel</el-button>
+                    <el-button type="primary"
+                        @click="async () => { dialogFormVisible = false; await $fetchReq('admin/quiz/new', 'POST', { name: this.newGameName }); getGames() }">
+                        Confirm
+                    </el-button>
+                </span>
+            </template>
+        </el-dialog>
+
     </div>
 </template>
   
@@ -40,6 +60,14 @@ export default {
     data() {
         return {
             games: null,
+            dialogFormVisible: false,
+            newGameName: ''
+        }
+    },
+
+    watch: {
+        dialogFormVisible() {
+            this.newGameName = ''
         }
     },
 

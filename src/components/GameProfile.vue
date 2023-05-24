@@ -7,7 +7,7 @@
         <el-collapse>
             <el-collapse-item v-for="(q, i) in questions" :key="i">
                 <template #title>
-                    {{ q.question }}
+                    {{ i + 1 }}. {{ q.question }}
                 </template>
 
                 <div style="borde: 1px solid red; text-align:left">
@@ -21,6 +21,7 @@
                     </div>
 
                     <br />
+                    time limit: {{ q.questionTime }} seconds<br /><br />
                     <el-button type="primary" @click.stop="showDrawer(i)">Edit</el-button>
                     <el-popconfirm title="Are you sure to delete this question?" @confirm="questions.splice(i, 1)">
                         <template #reference>
@@ -28,7 +29,6 @@
                         </template>
                     </el-popconfirm>
                 </div>
-
             </el-collapse-item>
         </el-collapse>
     </div>
@@ -45,20 +45,22 @@
                 <el-form-item label="time">
                     <el-input style="width: 40px" v-model="tempModelValue.questionTime"></el-input>
                 </el-form-item>
-                
+
                 <br />
                 <el-form-item label="options">
                     <el-button type="primary"
                         @click="tempModelValue.options.length < 6 ? tempModelValue.options.push('') : $message({ type: 'error', message: 'At most 6 options' })">add</el-button>
                 </el-form-item>
 
-                <el-form-item v-for="(option, index) in tempModelValue.options" :key="index" :label="index + 1" style="borde: solid red 1px; display: flex">
+                <el-form-item v-for="(option, index) in tempModelValue.options" :key="index" :label="index + 1"
+                    style="borde: solid red 1px; display: flex">
                     <el-input v-model="tempModelValue.options[index]" style="width: 650px"></el-input>
-                    <el-checkbox v-model="tempModelValue.correctIndex" :label="index" style="margin-left: 20px; margin-right: 20px">correct</el-checkbox>
+                    <el-checkbox v-model="tempModelValue.correctIndex" :label="index"
+                        style="margin-left: 20px; margin-right: 20px">correct</el-checkbox>
                     <el-button type="warning"
                         @click="tempModelValue.options.length > 4 ? tempModelValue.options.splice(index, 1) : $message({ type: 'error', message: 'At least 4 options' })">delete</el-button>
                 </el-form-item>
-               
+
             </el-form>
         </template>
         <template #footer>
@@ -115,6 +117,7 @@ export default {
                 console.log('questions changed')
                 console.log(val)
                 // 发给后端
+                this.$fetchReq(`admin/quiz/${this.gameId}`, 'PUT', { questions: val })
             },
             deep: true
         },
