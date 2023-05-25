@@ -7,7 +7,7 @@
     </div>
 
     <el-table :data="Object.values(sessions)" empty-text="No session in progress" style="width: 100%">
-        <el-table-column label="Session id" width="180">
+        <el-table-column label="Session id" width="180" style="border: solid 1px red">
             <template #default="scope">
                 <el-popover effect="light" trigger="hover" placement="top" width="auto">
                     <template #default>
@@ -78,7 +78,7 @@
                 <br /><br />
                 <el-button type="primary" @click="$router.push('/profile/' + val.id)">Edit</el-button>
                 <el-popconfirm title="Are you sure to delete this game?"
-                    @confirm="async () => { await $fetchReq('admin/quiz/' + val.id, 'DELETE'); getGames() }">
+                    @confirm="async () => { await $fetchReq('admin/quiz/' + val.id, 'DELETE'); getGames(); delete this.sessions[val.id]}">
                     <template #reference>
                         <el-button type="danger">Delete</el-button>
                     </template>
