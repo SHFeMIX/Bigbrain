@@ -1,6 +1,6 @@
 <template>
     <!-- :model="formLabelAlign" -->
-    <el-form label-position="top" label-width="100px" style="margin: 0 auto; width: 400px; margin-top: 60px">  
+    <el-form label-position="top" label-width="100px" style="margin: 0 auto; width: 400px; margin-top: 60px">
         <el-form-item label="Email">
             <el-input v-model="formLabelAlign.email" />
         </el-form-item>
@@ -14,7 +14,6 @@
 
     <el-button plain @click="change">{{ msg }}</el-button>
     <el-button type="primary" @click="submit">Enter</el-button>
-
 </template>
 
 <script>
@@ -36,7 +35,7 @@ export default {
         },
 
         msg() {
-            return this.hasAccount? "Don't have an account? Go register" : "Already have an account? Go login";
+            return this.hasAccount ? "Don't have an account? Go register" : "Already have an account? Go login";
         },
     },
 

@@ -78,7 +78,7 @@
                 <br /><br />
                 <el-button type="primary" @click="$router.push('/profile/' + val.id)">Edit</el-button>
                 <el-popconfirm title="Are you sure to delete this game?"
-                    @confirm="async () => { await $fetchReq('admin/quiz/' + val.id, 'DELETE'); getGames(); delete this.sessions[val.id]}">
+                    @confirm="async () => { await $fetchReq('admin/quiz/' + val.id, 'DELETE'); getGames(); delete this.sessions[val.id] }">
                     <template #reference>
                         <el-button type="danger">Delete</el-button>
                     </template>

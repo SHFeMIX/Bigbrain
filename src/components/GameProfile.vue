@@ -42,8 +42,9 @@
                 <el-form-item label="question">
                     <el-input v-model="tempModelValue.question"></el-input>
                 </el-form-item>
-                <el-form-item label="time">
-                    <el-input style="width: 40px" v-model="tempModelValue.questionTime"></el-input>
+                <el-form-item label="time limit">
+                    <el-slider v-model="tempModelValue.questionTime" show-input :min="20" :max="60" style="width: 500px" />
+                    <!-- <el-input style="width: 40px" v-model="tempModelValue.questionTime"></el-input> -->
                 </el-form-item>
 
                 <br />
