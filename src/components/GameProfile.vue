@@ -13,7 +13,6 @@
                 <div style="borde: 1px solid red; text-align:left">
                     <el-divider style="margin: 0; margin-bottom: 10px"></el-divider>
                     <div v-for="(option, index) in q.options" :key="option">
-                        <!-- , visibility: q.correctIndex.includes(index) ? 'visible' : 'hidden'  -->
                         <el-icon v-if="q.correctIndex.includes(index)" style="margin-left: 10px"><Select
                                 title="green" /></el-icon>
                         <div v-else style="display: inline-block; width: 23px"></div>
@@ -44,7 +43,6 @@
                 </el-form-item>
                 <el-form-item label="time limit">
                     <el-slider v-model="tempModelValue.questionTime" show-input :min="20" :max="60" style="width: 500px" />
-                    <!-- <el-input style="width: 40px" v-model="tempModelValue.questionTime"></el-input> -->
                 </el-form-item>
 
                 <br />
@@ -55,11 +53,11 @@
 
                 <el-form-item v-for="(option, index) in tempModelValue.options" :key="index" :label="index + 1"
                     style="borde: solid red 1px; display: flex">
-                    <el-input v-model="tempModelValue.options[index]" style="width: 650px"></el-input>
+                    <el-input v-model="tempModelValue.options[index]" style="width: 75%"></el-input>
                     <el-checkbox v-model="tempModelValue.correctIndex" :label="index"
                         style="margin-left: 20px; margin-right: 20px">correct</el-checkbox>
                     <el-button type="warning"
-                        @click="tempModelValue.options.length > 4 ? tempModelValue.options.splice(index, 1) : $message({ type: 'error', message: 'At least 4 options' })">delete</el-button>
+                        @click="tempModelValue.options.length > 4 ? tempModelValue.options.splice(index, 1) && deleteCorrect(index) : $message({ type: 'error', message: 'At least 4 options' })">delete</el-button>
                 </el-form-item>
 
             </el-form>
@@ -121,7 +119,7 @@ export default {
                 this.$fetchReq(`admin/quiz/${this.gameId}`, 'PUT', { questions: val })
             },
             deep: true
-        },
+        }
     },
 
     methods: {
@@ -153,6 +151,14 @@ export default {
 
             this.drawer = false
         },
+
+        deleteCorrect(no) {
+            const index = this.tempModelValue.correctIndex.indexOf(no)
+
+            if (index !== -1) {
+                this.tempModelValue.correctIndex.splice(index, 1)
+            }
+        }
     },
 
     async mounted() {
