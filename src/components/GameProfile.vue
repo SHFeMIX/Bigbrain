@@ -42,7 +42,7 @@
                     <el-input v-model="tempModelValue.question"></el-input>
                 </el-form-item>
                 <el-form-item label="time limit">
-                    <el-slider v-model="tempModelValue.questionTime" show-input :min="20" :max="60" style="width: 500px" />
+                    <el-slider v-model="tempModelValue.questionTime" show-input :min="20" :max="60" style="width: 600px" />
                 </el-form-item>
 
                 <br />
@@ -93,7 +93,7 @@ export default {
                 if (this.currIndex === undefined) {
                     this.tempModelValue = {
                         question: '',
-                        questionTime: 20,
+                        questionTime: 30,
                         options: ['', '', '', ''],
                         correctIndex: []
                     }
