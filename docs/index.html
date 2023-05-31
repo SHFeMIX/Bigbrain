@@ -23,6 +23,17 @@
         height: 20px;
         display: inline-block;
     }
+
+    .buttonContainer {
+        display: flex;
+        justify-content: center;
+    }
+
+    .buttonContainer button {
+        margin: 10px;
+        width: 70px;
+        height: 50px;
+    }
 </style>
 
 <body>
@@ -34,6 +45,20 @@
             <div :style="{backgroundColor: !item ? 'white' : (item == 1 ? 'black' : 'red')}" class="block"
                 v-for="item in row"></div>
         </div>
+
+        <br />
+
+        <div class="buttonContainer">
+            <button @click="move('ArrowUp')">Up</button>
+        </div>
+
+        <div class="buttonContainer">
+            <button @click="move('ArrowLeft')">Left</button>
+            <button @click="move('ArrowDown')">Down</button>
+            <button @click="move('ArrowRight')">Right</button>
+        </div>
+
+
 
     </template>
 </body>
@@ -117,31 +142,33 @@
                 } while (this.addrInList(newAddr))
 
                 return newAddr
-            }
-        },
+            },
 
-        mounted() {
-            document.addEventListener('keydown', (event) => {
+            move(direction) {
                 if (!this.acceptSet) {
                     return
                 }
                 // 不能倒着走
-                if (this.direction == 'ArrowUp' && event.key == 'ArrowDown') {
+                if (this.direction == 'ArrowUp' && direction == 'ArrowDown') {
                     return
                 }
-                if (this.direction == 'ArrowDown' && event.key == 'ArrowUp') {
+                if (this.direction == 'ArrowDown' && direction == 'ArrowUp') {
                     return
                 }
-                if (this.direction == 'ArrowLeft' && event.key == 'ArrowRight') {
+                if (this.direction == 'ArrowLeft' && direction == 'ArrowRight') {
                     return
                 }
-                if (this.direction == 'ArrowRight' && event.key == 'ArrowLeft') {
+                if (this.direction == 'ArrowRight' && direction == 'ArrowLeft') {
                     return
                 }
 
-                this.direction = event.key
+                this.direction = direction
                 this.acceptSet = false
-            })
+            }
+        },
+
+        mounted() {
+            document.addEventListener('keydown', (event) => { this.move(event.key) })
 
             //随机出生地点，方向 （随机一个坐标，上下左右哪个方向空间最大就往哪
             initHead = this.newApple()
