@@ -22,13 +22,14 @@ import { toRefs, getCurrentInstance } from 'vue'
 import { useRouter} from 'vue-router'
 
 const router = useRouter()
-const Props = defineProps(['backPath', 'title'])
-// defineProps不能套在函数里
-const { backPath, title } = toRefs(Props)
 
 // 使用自定义插件
 const instance = getCurrentInstance();
 const fetchReq = instance.appContext.config.globalProperties.$fetchReq;
+
+// defineProps不能套在函数里
+const Props = defineProps(['backPath', 'title'])
+const { backPath, title } = toRefs(Props)
 
 function logout() {
     fetchReq('admin/auth/logout', 'POST', null, localStorage.getItem('token'))
