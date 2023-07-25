@@ -40,5 +40,5 @@ if (!localStorage.getItem('token')) {
     console.log('no token')
     router.push('/login')
 }
-console.log('token exists')
+
 </script>
