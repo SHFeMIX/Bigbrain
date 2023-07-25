@@ -1,5 +1,5 @@
 <template>
-    <el-page-header @back="$router.push(this.backPath)">
+    <el-page-header @back="$router.push(backPath)">
         <template #content>
             <div class="flex items-center">
                 <el-avatar :size="32" class="mr-3"
@@ -17,23 +17,28 @@
     <el-divider />
 </template>
 
-<script>
-export default {
-    props: ['backPath', 'title'],
+<script setup>
+import { toRefs, getCurrentInstance } from 'vue'
+import { useRouter} from 'vue-router'
 
-    methods: {
-        logout() {
-            this.$fetchReq('admin/auth/logout', 'POST', null, localStorage.getItem('token'))
-            localStorage.removeItem('token')
-            this.$router.push('/login')
-        }
-    },
+const router = useRouter()
+const Props = defineProps(['backPath', 'title'])
+// defineProps不能套在函数里
+const { backPath, title } = toRefs(Props)
 
-    beforeCreate() {
-        if (!localStorage.getItem('token')) {
-            this.$router.push('/login')
-        }
-    }
+// 使用自定义插件
+const instance = getCurrentInstance();
+const fetchReq = instance.appContext.config.globalProperties.$fetchReq;
 
+function logout() {
+    fetchReq('admin/auth/logout', 'POST', null, localStorage.getItem('token'))
+    localStorage.removeItem('token')
+    router.push('/login')
 }
+
+if (!localStorage.getItem('token')) {
+    console.log('no token')
+    router.push('/login')
+}
+console.log('token exists')
 </script>
