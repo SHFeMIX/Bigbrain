@@ -21,11 +21,12 @@
 import { toRefs, getCurrentInstance } from 'vue'
 import { useRouter} from 'vue-router'
 
+import useGlobalProperties from '../hooks/useGlobalProperties.js';
+
 const router = useRouter()
 
 // 使用自定义插件
-const instance = getCurrentInstance();
-const fetchReq = instance.appContext.config.globalProperties.$fetchReq;
+const fetchReq = useGlobalProperties('$fetchReq')
 
 // defineProps不能套在函数里
 const Props = defineProps(['backPath', 'title'])
