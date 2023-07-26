@@ -19,6 +19,10 @@
 
 <script setup>
 import { toRefs } from 'vue'
+// defineProps是编译器宏不需要导入的，然而eslint不认识非说not defined
+// 随便从什么里导入一个哪怕是undefined，就能跑了
+import { defineProps } from 'vue'
+// 昨天提交的时候还好好的今天怎么eslint就报错
 import { useRouter } from 'vue-router'
 import useGlobalProperties from '../hooks/useGlobalProperties.js';
 
@@ -27,7 +31,7 @@ const router = useRouter()
 // 使用自定义插件
 const fetchReq = useGlobalProperties('$fetchReq')
 
-// defineProps不能套在函数里
+// defineProps不能套在函数入参里
 const Props = defineProps(['backPath', 'title'])
 const { backPath, title } = toRefs(Props)
 
