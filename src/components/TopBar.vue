@@ -26,7 +26,7 @@ import { defineProps } from 'vue'
 import { useRouter } from 'vue-router'
 import useGlobalProperties from '../hooks/useGlobalProperties.js';
 
-const router = useRouter()
+const $router = useRouter()
 
 // 使用自定义插件
 const $fetchReq = useGlobalProperties('$fetchReq')
@@ -38,12 +38,12 @@ const { backPath, title } = toRefs(Props)
 function logout() {
     $fetchReq('admin/auth/logout', 'POST', null, localStorage.getItem('token'))
     localStorage.removeItem('token')
-    router.push('/login')
+    $router.push('/login')
 }
 
 if (!localStorage.getItem('token')) {
     console.log('no token')
-    router.push('/login')
+    $router.push('/login')
 }
 
 </script>
