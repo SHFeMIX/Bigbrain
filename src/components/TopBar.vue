@@ -29,14 +29,14 @@ import useGlobalProperties from '../hooks/useGlobalProperties.js';
 const router = useRouter()
 
 // 使用自定义插件
-const fetchReq = useGlobalProperties('$fetchReq')
+const $fetchReq = useGlobalProperties('$fetchReq')
 
 // defineProps不能套在函数入参里
 const Props = defineProps(['backPath', 'title'])
 const { backPath, title } = toRefs(Props)
 
 function logout() {
-    fetchReq('admin/auth/logout', 'POST', null, localStorage.getItem('token'))
+    $fetchReq('admin/auth/logout', 'POST', null, localStorage.getItem('token'))
     localStorage.removeItem('token')
     router.push('/login')
 }

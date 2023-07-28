@@ -16,46 +16,40 @@
     <el-button type="primary" @click="submit">Enter</el-button>
 </template>
 
-<script>
-export default {
+<script setup>
+import { reactive, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
+import useGlobalProperties from '../hooks/useGlobalProperties.js';
 
-    data() {
-        return {
-            formLabelAlign: {
-                email: "",
-                password: "",
-                name: "",
-            },
-        };
-    },
+const $router = useRouter()
+const $route = useRoute()
 
-    computed: {
-        hasAccount() {
-            return this.$route.path === "/login";
-        },
+const $fetchReq = useGlobalProperties('$fetchReq')
 
-        msg() {
-            return this.hasAccount ? "Don't have an account? Go register" : "Already have an account? Go login";
-        },
-    },
+const formLabelAlign = reactive({
+    email: "",
+    password: "",
+    name: "",
+})
 
-    methods: {
-        async submit() {
-            console.log(this.formLabelAlign);
+const hasAccount = computed(() => $route.path === "/login")
 
-            const data = await this.$fetchReq(`admin/auth/${this.hasAccount ? 'login' : 'register'}`, 'POST', this.formLabelAlign, null)
-            if (data.error) {
-                alert(data.error)
-                return;
-            }
+const msg = computed(() => hasAccount.value ? "Don't have an account? Go register" : "Already have an account? Go login")
 
-            localStorage.setItem('token', data.token)
-            this.$router.push("/dashboard");
-        },
+async function submit() {
+    console.log(formLabelAlign);
 
-        change() {
-            this.$router.push({ path: this.hasAccount ? "/register" : "/login" });
-        }
-    },
-};
+    const data = await $fetchReq(`admin/auth/${hasAccount.value ? 'login' : 'register'}`, 'POST', formLabelAlign, null)
+    if (data.error) {
+        alert(data.error)
+        return;
+    }
+
+    localStorage.setItem('token', data.token)
+    $router.push("/dashboard");
+}
+
+function change() {
+    $router.push({ path: hasAccount.value ? "/register" : "/login" });
+}
 </script>
