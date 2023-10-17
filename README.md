@@ -1,14 +1,9 @@
-# Assessment 4 - ReactJS: BigBrain
+# Vue.js3: BigBrain
 
 1. Background & Motivation
 2. The Task (Frontend)
 3. The Support (Backend)
 4. Constraints & Assumptions
-5. Teamwork
-6. Marking Criteria
-7. Originality of Work
-8. Submission
-9. Late Submission Policy
 
 ## 0. Change Log
 
@@ -22,7 +17,7 @@ A week later you received a tentative $50,000 investment from an [Angel Investor
 
 Shortly after you discussed the functionality and feature set with your friends, and wrote out a RESTful specification / interface together so that you can split up the front-end and back-end work between the group.
 
-You (and optionally another one of your friends) decided to work on building the front-end. You wrote a list of requirements and functionalities your frontend should adhere to (described in `section 2`). You also decided to complete this application in `ReactJS`, a declarative framework for building single page applications. This front-end will interact with a Restful API that your team members are producing, based on the pre-defined interface.
+You (and optionally another one of your friends) decided to work on building the front-end. You wrote a list of requirements and functionalities your frontend should adhere to (described in `section 2`). You also decided to complete this application in `Vue.js3`, a declarative framework for building single page applications. This front-end will interact with a Restful API that your team members are producing, based on the pre-defined interface.
 
 Because your MVP is only going to be demonstrated once, your team considers it imperative that your front-end is thoroughly tested.
 
@@ -32,9 +27,9 @@ To satisfy modern tastes and expectations you have also decided to ensure that t
 
 ## 2. The Front-end (Work to do)
 
-Navigate to the `frontend` folder and run `npm install` to install all of the dependencies necessary to run the ReactJS app. Then run `npm start` to start the ReactJS app.
+Navigate to the `frontend` folder and run `npm install` to install all of the dependencies necessary to run the Vue.js app. Then run `npm run serve` to start the Vue.js app.
 
-A series of features below need to be implemented in your ReactJS app to operate in conjunction with the backend (section 3).
+A series of features below need to be implemented in your Vue.js app to operate in conjunction with the backend (section 3).
 
 ### 2.1. Feature 1. Admin Auth (12% for solo, 10% for pairs)
 
@@ -174,9 +169,6 @@ If you're having issues using Cypress on WSL2, try following [this guide](https:
 * For users of typescript, there is an alternatively `.eslintrc` file [being collaborated here](https://hackmd.io/sy1urGgxRpGwOJ0nOkNlUw?both). Do not change it unless given approval on forum.
 
 ### 3.1. The Frontend
-
-Navigate to the `frontend` folder and run `npm install` to install all of the dependencies necessary to run the ReactJS app. Then run `npm start` to start the ReactJS app.
-
 Please note that some properties that the backend takes in are defined as blank objects. These are objects that can be defined by you, as the backend will simply store your object on some routes and then return it to you on other routes (i.e. the backend doesn't need to understand the schema of some objects you pass it). An example of this object is all of the data associated with a quiz.
 
 This approach we've taken is actually designed to make the assignment _easier_, as it gives you control without having to worry about backend architecture.
@@ -203,9 +195,9 @@ Please note: You CAN modify the backend for bonus marks. But you cannot modify t
 
 ### 4.1. Languages
 
- * You must implement this assignment in ReactJS. You cannot use other declarative frameworks, such as AngularJS, or VueJS.
- * You must use ReactJS solutions wherever possible, and avoid doing any direct DOM manipulation unless completely unavoidable (check with course staff).
- * You can use any CSS libraries that you would like, such as bootstrap or material-ui.
+ * You must implement this assignment in Vue.js. You cannot use other declarative frameworks, such as AngularJS, or ReactJS.
+ * You must use Vue.js solutions wherever possible, and avoid doing any direct DOM manipulation unless completely unavoidable (check with course staff).
+ * You can use any CSS libraries that you would like, such as bootstrap or element-plus.
  * You are able to use and install any library that is available to install via `npm install`.
 
 ### 4.2. Browser Compatibility
@@ -221,154 +213,4 @@ Please note: You CAN modify the backend for bonus marks. But you cannot modify t
  * Besides those described to avoid, you may use any other packages available on npm.
  * The use of universal CSS is banned - you must use either CSS libraries (e.g. material-ui) or styled components.
 
-## 5. Teamwork
 
-This assignment may be completed in a team of two (pair). However, you are also welcome to complete it on your own, if you choose. The groups were organised and coordinated by the course coordinator separately.
-
-If you formed a pair, you will be unable to leave your pair unless under extreme circumstances. You will be assessed together for the assignment.
-
-If your contributions to the assignment are not approximately equal, then the teaching staff may make discretionary calls based on your gitlab history to award different marks to each student.
-
-<b>Please note: Your contributions will be measured based on the lines and commits contributed via gitlab. Please commit via your own machine or account.</b> If you're in a pair, your contributions will not be considered yours if it is your partner who pushes the code to gitlab.
-
-<b>Please note: When special consideration is granted for one individual in a pair, it will only either 1) extend the deadline for the person who gets special consideration (it does not extend for the other individual); or 2) Result in a scale of the mark. To determine which outcome is appropriate, the person who receives special consideration is required to email the lecturer to notify them of how the work is split up prior to deadline.</b>
-
-## 6. Marking Criteria
-
-Your assignment will be hand-marked by tutor(s) in the course according to the criteria below.
-
-<table>
-  <tr>
-    <th>Criteria</th>
-    <th>Weighting</th>
-    <th>Description</th>
-  </tr>
-  <tr>
-    <td>Functionality of the Feature Set + Mobile Responsiveness</td>
-    <td>60%</td>
-    <td>
-      <ul>
-        <li>Features implemented that satisfy requirements as outlined in `2.1`, `2.2`, `2.3`, `2.4`, and `2.5` (for pairs).</li>
-        <li>Features implemented in a mobile responsive way that work on screens as small as 400px wide, 700px high</li>
-        <li>Responsive design will contribute up to one quarter of the marks of this section</li>
-        <li>You <b>MUST</b> update the <code>progress.csv</code> file in the root folder of this repository as you complete things partially or fully. The valid values are "NO", "PARTIAL", and "YES". Updating this is necessary so that your tutor knows what to focus on and what to avoid - giving them the best understanding of your work and provide you with marks you have earned.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td>Linted Code</td>
-    <td>5%</td>
-    <td>
-      <ul>
-        <li>Submitted code is completely `eslint` compliant based on provided eslint configuration file.</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td>Code Style</td>
-    <td>10%</td>
-    <td>
-      <ul>
-        <li>Your code is clean, well commented, with well-named variables, and well laid out.</li>
-        <li>Code follows common ReactJS patterns that have been discussed in lectures</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-    <td>Testing</td>
-    <td>15%</td>
-    <td>
-      <ul>
-        <li>Two thirds (10%) of the marks received from complying with requirements in section `2.7` in relation to **component testing**</li>
-        <li>One third (5%) of the marks received from complying with requirements in section `2.7` in relation to **ui testing**</li>
-        <li>Describe your approach to testing in `TESTING.md`</li>
-      </ul>
-    </td>
-  </tr>
-  <tr>
-		<td>UI/UX</td>
-		<td>5%</td>
-		<td>
-			<ul>
-				<li>Your application is usable and easy to navigate. No obvious usability issues or confusing layouts/flows.</li>
-				<li>Your application makes intelligent use of UI/UX principles and patterns discussed in the UI/UX lectures.</li>
-				<li>Describe any attempts you've made to improve the UI/UX in `UIUX.md`</li>
-			</ul>
-		</td>
-	</tr>
-	<tr>
-		<td>Accessibility</td>
-		<td>5%</td>
-		<td>
-			<ul>
-				<li>Your application follows standard accessibility lessons covered in lectures.</li>
-				<li>Describe any attempts you've made to improve the Accessibility in `A11Y.md`</li>
-			</ul>
-		</td>
-	</tr>
-  <tr>
-    <td>(Bonus Marks) Extra Features</td>
-    <td>5%</td>
-    <td>
-      <ul>
-        <li>Implementation of extra features that are not included in the spec.</li>
-        <li>Extra features should be non-trivial, have a clear justification for existing, and show either a form of technical, product, or creative flare.</li>
-        <li>Any extra features written down in `BONUS.md` in the project folder</li>
-        <li>Any bonus marks that extend your ass3 mark above 100% will bleed into other assignment marks, but cannot contribute outside of the 80% of the course that is allocated for assignment marks</li>
-        <li><b>Expectations placed on solo groups will be half of that of pairs to achieve the same mark.</b></li>
-      </ul>
-    </td>
-  </tr>
-</table>
-
-## 7. Originality of Work
-
-The work you submit must be your own work.  Submission of work partially or completely derived from
-any other person or jointly written with any other person is not permitted.
-
-The penalties for such an offence may include negative marks, automatic failure of the course and
-possibly other academic discipline. Assignment submissions will be examined both automatically and
-manually for such submissions.
-
-Relevant scholarship authorities will be informed if students holding scholarships are involved in
-an incident of plagiarism or other misconduct.
-
-Do not provide or show your assignment work to any other person &mdash; apart from the teaching
-staff of COMP6080.
-
-If you knowingly provide or show your assignment work to another person for any reason, and work
-derived from it is submitted, you may be penalized, even if the work was submitted without your
-knowledge or consent.  This may apply even if your work is submitted by a third party unknown to
-you.
-
-Every time you make commits or pushes on this repository, you are acknowledging that the work you
-submit is your own work (as described above).
-
-Note you will not be penalized if your work has the potential to be taken without your consent or
-knowledge.
-
-**PLEASE NOTE: To ensure the originality of your work, we are requiring that you regularly commit your work to git throughout the weeks this assignment has been released. Regular and small commits and critical. Failures to commit regularly (or at minimum, failures to commit in small chunks) may result in allegations of plagiarism**
-
-## 8. Submission
-
-This assignment is due *Wednesday the 19th of April, 10pm*.
-
-To submit your assignment, you must complete the following two steps in order: Ensure you've pushed all of your code to your gitlab master branch. You can check if you've done this properly by seeing what code is on the gitlab site on your master branch.
-
-This will submit the latest commit on master as your submission.
-
-You do NOT have to run a submit command for this assignment.
-
-It is your responsibiltiy to ensure that your code can run successfully when cloned fresh from Gitlab.
-
-For pairs, only one team member needs to submit.
-
-### Dryrun
-
-You can run a dryrun to sanity check your code runs basically by:
-1. Pushing your code to master on gitlab
-2. On a CSE terminal (vlab or lab machine), run `6080 ass4dryrun GROUP_NAME` where GROUP_NAME is the name of your group
-
-## 9. Late Submission Policy
-
-No late submission are accepted.
