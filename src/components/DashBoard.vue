@@ -64,7 +64,7 @@
             <img src="../assets/logo.png" style="width: 100%" />
             <el-divider style="margin: 0" />
             <div style="padding: 14px">
-                <div>
+                <div style="text-align: left; margin-left: 20px">
                     title: {{ val.name }} <br />
                     number of questions: {{ val.questions.length }} <br />
                     total time: {{ val.questions.length > 0 ? val.questions.reduce((acc, cur) => acc +
